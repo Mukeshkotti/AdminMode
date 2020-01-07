@@ -8,13 +8,13 @@ import { Category } from '../_models/category';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-  categoryList:Category[];
+  categoryList: Category[];
 
   constructor(private appService: AppService) { }
 
   ngOnInit() {
     this.appService.getCategory().subscribe(res => {
-      this.categoryList = this.appService.prepareCategory(res['payload'].product_category.data);
+      this.categoryList = this.appService.prepareCategory(res['payload'].product_category);
       console.log(this.categoryList);
     }, err => {
 

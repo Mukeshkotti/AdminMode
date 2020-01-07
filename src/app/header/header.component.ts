@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../_services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivationStart } from '@angular/router';
+import { Profile } from '../_models/profile';
 
 @Component({
   selector: 'app-header',
@@ -9,13 +10,13 @@ import { Router, ActivationStart } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  userDetails:any;
+  userDetails: Profile = new Profile();
   currentState: any;
 
   constructor(private authenticationService: AuthenticationService, private toastr: ToastrService, private router: Router) {
-    this.userDetails = this.authenticationService.userDetailValue;
+    this.userDetails = this.authenticationService.userDetailValue[0];
     this.router.events.subscribe(event => {
-      if (event instanceof ActivationStart ){
+      if (event instanceof ActivationStart ) {
         this.currentState = event.snapshot.routeConfig.path;
       }
     });
