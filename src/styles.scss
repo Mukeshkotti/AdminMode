@@ -1,0 +1,76 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    font-size: 14px;
+    color: #575962;
+    background: #f9fbfd!important;
+    font-family: 'Roboto', sans-serif!important;
+}
+
+.err-msg{
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+input:focus{
+    box-shadow: none!important;
+}
+
+.avatar-sm {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+.avatar-img {
+    width: 100%;
+    height: 100%;
+}
+
+.avatar-lg {
+    width: 3.75rem;
+    height: 3.75rem;
+}
+
+.avatar-lg .rounded {
+    border-radius: 8px !important;
+}
+
+/* radio button style */
+.radio.radio-inline{
+    display: inline-block;
+    margin-right: 10px;
+    input[type='radio']{
+      display: none;
+    }
+    input[type='radio']:checked + label{
+      &:after {
+        content:'';
+        width: 10px;
+        height: 10px;
+        background-color: #1c7430;
+        border-radius: 50%;
+        position: absolute;
+        left: 6px;
+        top: 6px;
+      }
+      &:before{
+        border-color: #1c7430;
+      }
+    }
+    label{
+      font-weight: 600;
+      position: relative;
+      padding-left: 30px;
+      cursor: pointer;
+      &:before{
+        content:'';
+        width: 22px;
+        height: 22px;
+        border:2px solid #999;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+  }
+  
