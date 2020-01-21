@@ -16,12 +16,11 @@ export class DataService {
 
     //Http Post Webservice function
     httpPost(serviceUrl: string, postData) {
-        console.log(postData);
         const headers = new HttpHeaders();
         // headers.append('Access-Control-Allow-Headers', 'Content-Type');
         // headers.append('Access-Control-Allow-Methods', 'POST');
         headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Content-Type', 'application/json');
+       // headers.append('Content-Type', 'application/json');
         return this.http.post(serviceUrl, postData)
             .pipe(map(response => response));
     }

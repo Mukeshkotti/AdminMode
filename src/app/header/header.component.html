@@ -1,6 +1,6 @@
 <header>
     <div class="logo-header">
-        <a class="logo" routerlink="/"> Kumaran Agro Service </a>
+        <a class="logo" routerlink="/"> KAS Admin </a>
         <div class="nav-toggle">
             <button class="btn btn-toggle toggle-sidebar">
                 <i class="fa fa-bars"></i>
@@ -148,29 +148,68 @@
 </header>
 <div class="sidebar">
     <div class="sidebar-wrapper">
+        <div class="outer-logo"><div class="nav-logo"></div></div>
         <ul class="nav nav-primary">
             <li>
-                <a routerLink="/" [ngClass]="{'active':currentState === ''}">
-                    <i class="fa fa-home"></i>
+                <a routerLink="/" [ngClass]="{'active': currentState === ''}">
+                    <i class="dashboard-icn"></i>
                     <p>Dashboard</p>
                 </a>
             </li>
             <li>
                 <a routerLink="/category" routerLinkActive="active">
-                    <i class="fa fa-home"></i>
+                    <i class="category-icn"></i>
                     <p>Category</p>
                 </a>
             </li>
             <li>
-                <a>
-                    <i class="fa fa-home"></i>
+                <a routerLink="/product" routerLinkActive="active">
+                    <i class="product-icn"></i>
                     <p>Product</p>
                 </a>
             </li>
             <li>
-                <a>
-                    <i class="fa fa-home"></i>
-                    <p>Area</p>
+                <a routerLink="/area" routerLinkActive="active">
+                    <i class="location-icn"></i>
+                    <p>Location</p>
+                    <span class="fa fa-caret-down"></span>
+                </a>
+                <!-- <div class="collapse" id="locationLayouts">
+                    <ul class="nav nav-collapse">
+                        <li>
+                            <a href="sidebar-style-1.html">
+                                <span class="sub-item">Sidebar Style 1</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="overlay-sidebar.html">
+                                <span class="sub-item">Overlay Sidebar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="compact-sidebar.html">
+                                <span class="sub-item">Compact Sidebar</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div> -->
+            </li>
+            <li>
+                <a routerLink="/area">
+                    <i class="order-icn"></i>
+                    <p>Orders</p>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/area">
+                    <i class="cust-icn"></i>
+                    <p>Customers</p>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/area">
+                    <i class="setting-icn"></i>
+                    <p>Settings</p>
                 </a>
             </li>
         </ul>

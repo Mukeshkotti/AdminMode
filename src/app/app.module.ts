@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,10 +16,11 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { AuthGuard } from './_helpers/auth.guards';
 import { CategoryComponent } from './category/category.component';
-import { CategoryAddEditComponent } from './category-add-edit/category-add-edit.component';
 import { AppService } from './_services/app.service';
 import { DataService } from './_services/data.service';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { ProductComponent } from './product/product.component';
+import { AreaComponent } from './area/area.component';
 
 
 @NgModule({
@@ -28,12 +30,14 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     LoginComponent,
     HeaderComponent,
     CategoryComponent,
-    CategoryAddEditComponent
+    ProductComponent,
+    AreaComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    RxReactiveFormsModule,
     HttpClientModule,
     FormsModule,
     ToastrModule.forRoot({

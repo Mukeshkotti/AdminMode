@@ -19,12 +19,11 @@ export class LoginComponent implements OnInit {
   userDetails: User;
   returnUrl: string;
 
-  constructor(private formBuilder: FormBuilder, private AuthService: AuthenticationService, private router: Router,
-    private toastr: ToastrService, private SpinnerService: NgxSpinnerService, private route: ActivatedRoute) {
-    if (this.AuthService.currentUserValue) {
-      this.router.navigate(['/']);
+  constructor(private formBuilder: FormBuilder, private AuthService: AuthenticationService, private router: Router,  private toastr: ToastrService, private SpinnerService: NgxSpinnerService, private route: ActivatedRoute) {
+    if (this.AuthService.currentUserValue) { 
+        this.router.navigate(['/']);
     }
-  }
+   }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -40,19 +39,23 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.submitted = true;
       this.SpinnerService.show();
-      this.AuthService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(res => {
+      this.AuthService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(res =>{
         this.AuthService.userProfile().subscribe(response => {
           this.SpinnerService.hide();
           this.toastr.success('Login Successfully', 'Success');
           this.router.navigate([this.returnUrl]);
         });
-      }, err => {
+      }, err =>{
         this.SpinnerService.hide();
         this.toastr.info(err, 'Error');
       });
-    } else {
+    }  else {
       this.submitted = false;
     }
+  }
+
+  forgotPassword(){
+    
   }
 
 }

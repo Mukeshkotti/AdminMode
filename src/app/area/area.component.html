@@ -1,0 +1,135 @@
+<div class="main-panel">
+    <nav >
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+          <i class="fa fa-angle-right m-lr-13 align-self-center"></i>
+          <li class="breadcrumb-item active">
+                Area
+            </li>
+        </ol>
+    </nav>
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Area Manage</h4>
+            <div class="page-right">
+                <div class="dropdown-outer">
+                    <label for="statusFilter">Filter by Status</label>
+                    <select class="select-bx">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" (click)="addArea('add')">Add Area</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>S. No</th>
+                        <th>Area Name</th>
+                        <th>Delivery Charge</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let area of areaList; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{area.name_eng}} / {{area.name_tam}}</td>
+                        <td>
+                            <span *ngIf="area.delivery_charge != 0">{{area.delivery_charge}}</span>
+                            <span *ngIf="area.delivery_charge == 0">Free</span>
+                        </td>
+                        <td>
+                            <span class="status-inactive" *ngIf="area.status === '0'">Inactive</span>
+                            <span class="status-active" *ngIf="area.status === '1'">Active</span>
+                        </td>
+                        <td>
+                            <div class="edit-icn" (click)="editArea(area, 'edit')"></div>
+                            <div class="delete-icn" (click)="deleteArea(area.id)"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Category Form -->
+<div class="modal fade" id="areaModal" >
+    <div class="modal-dialog  modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add/Edit Area</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="areaForm" (ngSubmit)="onSubmit()">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Area Name (English)</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" formControlName="name_eng"
+                            [ngClass]="{ 'is-invalid': f.name_eng.invalid && (f.name_eng.dirty || f.name_eng.touched || !submitted)}">
+                        <div *ngIf="f.name_eng.invalid && (f.name_eng.dirty || f.name_eng.touched || !submitted)"
+                            class="err-msg">
+                            Enter valid Area Name in English
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Area Name (Tamil)</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" formControlName="name_tam"
+                            [ngClass]="{ 'is-invalid': f.name_tam.invalid && (f.name_tam.dirty || f.name_tam.touched || !submitted)}">
+                        <div *ngIf="f.name_tam.invalid && (f.name_tam.dirty || f.name_tam.touched || !submitted)"
+                            class="err-msg">
+                            Enter valid Area Name in Tamil
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Delivery Charge</label>
+                    <div class="col-sm-6">
+                        <input type="number" class="form-control" formControlName="delivery_price"
+                            [ngClass]="{ 'is-invalid': f.delivery_price.invalid && (f.delivery_price.dirty || f.delivery_price.touched || !submitted)}">
+                        <div *ngIf="f.delivery_price.invalid && (f.delivery_price.dirty || f.delivery_price.touched || !submitted)"
+                            class="err-msg">
+                            Enter valid Delivery charge
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Status</label>
+                    <div class="col-sm-6">
+                        <div class="radio radio-inline">
+                            <input type="radio" id="cat_active" formControlName="status"
+                                value="1" checked>
+                            <label for="cat_active">Active</label>
+                        </div>
+                        <div class="radio radio-inline">
+                            <input type="radio" id="cat_inactive" formControlName="status"
+                                value="0">
+                            <label for="cat_inactive">Inactive</label>
+                        </div>
+                        <div *ngIf="f.status.invalid && (f.status.dirty || f.status.touched || !submitted)"
+                            class="err-msg">
+                            Please select the status
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-6">
+                        <button class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+

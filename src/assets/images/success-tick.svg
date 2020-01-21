@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="31px" height="31px" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.1 (72631) - https://sketchapp.com -->
+    <title>tickblue</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(-32.000000, -28.000000)" fill-rule="nonzero">
+            <g id="Group" transform="translate(32.000000, 26.000000)">
+                <g id="tickblue" transform="translate(0.000000, 2.000000)">
+                    <rect id="Rectangle-Copy-4" fill="#70B42E" x="0" y="0" width="31" height="31" rx="2"></rect>
+                    <g id="tick" transform="translate(16.322276, 14.277294) rotate(-8.000000) translate(-16.322276, -14.277294) translate(7.603526, 7.496044)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2">
+                        <path d="M15.676733,1.78660907 C15.3842368,1.49408364 14.9100168,1.49408364 14.6174621,1.78660907 L5.64379556,10.7603634 L2.19446496,7.31103276 C1.9019688,7.01850733 1.42774873,7.0185366 1.13519406,7.31103276 C0.842668631,7.60352892 0.842668631,8.07774899 1.13519406,8.37027442 L5.11416012,12.3491819 C5.40656851,12.6416781 5.88113967,12.6414733 6.17343103,12.3491819 L15.676733,2.84587996 C15.9692584,2.5533838 15.9692292,2.07913448 15.676733,1.78660907 Z" id="Path" transform="translate(8.405958, 7.067846) rotate(7.000000) translate(-8.405958, -7.067846) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

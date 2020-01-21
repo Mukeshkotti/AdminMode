@@ -1,6 +1,8 @@
 export class Product{
+    id: number;
     name_eng: string;
     name_tam: string;
+    is_fav: boolean;
     image: string;
     status: boolean;
     description: string;

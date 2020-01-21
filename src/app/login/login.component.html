@@ -1,9 +1,10 @@
 <div class="login-outer">
+    <div class="login-logo"></div>
     <div class="login-box">
-        <div class="login-logo"></div>
+        <h3>Login</h3>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label for="exampleInputEmail1">Username</label>
+                <label for="exampleInputEmail1">Email id / Username </label>
                 <input type="email" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': f.email.invalid && (f.email.dirty || f.email.touched || !submitted)}">
                 <div *ngIf="f.email.invalid && (f.email.dirty || f.email.touched || !submitted)"
                     class="err-msg">
@@ -18,7 +19,17 @@
                     Enter valid Password
                 </div>
             </div>
-            <button type="submit" class="btn btn-warning">Submit</button>
+            <div class="form-group">
+                <div class="inner-bx">
+                    <div class="checkbox checkbox-inline">
+                        <input type="checkbox" id="remember"/>
+                        <label for="remember">Remember Me</label>
+                    </div>
+                    <a (click)="forgotPassword()">Forgot Password?</a>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Submit</button>
         </form>
     </div>
+    <div class="copyright">Copyright &copy; Kasonlineshop.com.</div>
 </div>

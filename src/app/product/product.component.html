@@ -1,0 +1,257 @@
+<div class="main-panel">
+    <nav >
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+          <i class="fa fa-angle-right m-lr-13 align-self-center"></i>
+          <li class="breadcrumb-item active">
+                Product
+            </li>
+        </ol>
+    </nav>
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Product Manage</h4>
+            <div class="page-right">
+                <div class="dropdown-outer">
+                    <label for="statusFilter">Filter by Status</label>
+                    <select class="select-bx">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" (click)="addProduct('add')">Add Product</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>S. No</th>
+                        <th>Product Name</th>
+                        <th>Product Description</th>
+                        <th>Stock Quantity</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of productList; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>
+                            <div class="cat_box">
+                                <div class="avatar-sm">
+                                    <img [src]="product.image" alt="product Image"
+                                        class="avatar-img rounded">
+                                </div>
+                                <div class="cat_inner">
+                                   <span> {{product.name_eng}}</span>
+                                   <span> {{product.name_tam}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="table-desc" *ngIf="product.description !== null">{{product.description}}</span></td>
+                        <td>{{product.stock}}</td>
+                        <td>{{product.offer_price}}</td>
+                        <td>
+                            <span class="status-inactive" *ngIf="product.status === '0'">Inactive</span>
+                            <span class="status-active" *ngIf="product.status === '1'">Active</span>
+                        </td>
+                        <td>
+                            <div class="edit-icn" (click)="editProduct(product, 'edit')"></div>
+                            <div class="delete-icn" (click)="deleteConfirm(product.id)"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit product Form -->
+<div class="modal fade" id="productModal" data-backdrop="static">
+    <div class="modal-dialog  modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add/Edit Product</h5>
+          <button type="button" class="close" (click)="modalClose()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Select Category <span class="red-star">*</span></label>
+                    <div class="col-sm-6">
+                        <!-- <input type="text" formControlName="category" [ngClass]="{ 'is-invalid': f.category.invalid && (f.category.dirty || f.category.touched || !submitted)}" /> -->
+                        <select class="form-control" formControlName="category_id" [ngClass]="{ 'is-invalid': f.category_id.invalid && (f.category_id.dirty || f.category_id.touched || !submitted)}">
+                            <option *ngFor="let category of categoryList; let i = index" value="{{category.id}}">{{category.name_eng}}</option>
+                        </select>
+                        <div *ngIf="f.category_id.invalid && (f.category_id.dirty || f.category_id.touched || !submitted)" class="err-msg">
+                            Select the category
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Product Image</label>
+                    <div class="col-sm-6">
+                        <input type="file" id="prod_upload" formControlName="image" (change)="fileChange($event)"/>
+                        <label for="prod_upload">
+                            <span>{{fileName}}</span>
+                            <strong>Browse</strong>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Product Name (English) <span class="red-star">*</span></label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" formControlName="name_eng"
+                            [ngClass]="{ 'is-invalid': f.name_eng.invalid && (f.name_eng.dirty || f.name_eng.touched || !submitted)}">
+                        <div *ngIf="f.name_eng.invalid && (f.name_eng.dirty || f.name_eng.touched || !submitted)"
+                            class="err-msg">
+                            Enter valid Product Name in English
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Product Name (Tamil) <span class="red-star">*</span></label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" formControlName="name_tam"
+                            [ngClass]="{ 'is-invalid': f.name_tam.invalid && (f.name_tam.dirty || f.name_tam.touched || !submitted)}">
+                        <div *ngIf="f.name_tam.invalid && (f.name_tam.dirty || f.name_tam.touched || !submitted)"
+                            class="err-msg">
+                            Enter valid Product Name in Tamil
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Favourite <span class="red-star">*</span></label>
+                    <div class="col-sm-6">
+                        <div class="radio radio-inline">
+                            <input type="radio" id="fav_active" formControlName="is_fav"
+                                value="1">
+                            <label for="fav_active">Yes</label>
+                        </div>
+                        <div class="radio radio-inline">
+                            <input type="radio" id="fav_inactive" formControlName="is_fav"
+                                value="0">
+                            <label for="fav_inactive">No</label>
+                        </div>
+                        <div *ngIf="f.is_fav.invalid && (f.is_fav.dirty || f.is_fav.touched || !submitted)"
+                            class="err-msg">
+                            Please select Favourite product
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Product Unit/Value <span class="red-star">*</span></label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" formControlName="unit"
+                            [ngClass]="{ 'is-invalid': f.unit.invalid && (f.unit.dirty || f.unit.touched || !submitted)}">
+                        <div *ngIf="f.unit.invalid && (f.unit.dirty || f.unit.touched || !submitted)"
+                            class="err-msg">
+                            Enter valid Product Unit
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Product Description</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" formControlName="description"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Stock Quantity <span class="red-star">*</span></label>
+                    <div class="col-sm-6">
+                        <input type="number" class="form-control" formControlName="stock"
+                            [ngClass]="{ 'is-invalid': f.stock.invalid && (f.stock.dirty || f.stock.touched || !submitted)}">
+                        <div *ngIf="f.stock.invalid && (f.stock.dirty || f.stock.touched || !submitted)"
+                            class="err-msg">
+                            Enter valid Stock Quantity
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Product Price <span class="red-star">*</span></label>
+                    <div class="col-sm-3">
+                        <input type="number" class="form-control" formControlName="mrp_price" placeholder="MRP Price"
+                            [ngClass]="{ 'is-invalid': f.mrp_price.invalid && (f.mrp_price.dirty || f.mrp_price.touched || !submitted)}">
+                        <div *ngIf="f.mrp_price.invalid && (f.mrp_price.dirty || f.mrp_price.touched || !submitted)"
+                            class="err-msg">
+                            Enter valid MRP Price
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="number" class="form-control" formControlName="offer_price" placeholder="Offer Price"
+                            [ngClass]="{ 'is-invalid': f.offer_price.invalid && (f.offer_price.dirty || f.offer_price.touched || !submitted)}">
+                        <div *ngIf="f.offer_price.invalid && (f.offer_price.dirty || f.offer_price.touched || !submitted)"
+                            class="err-msg">
+                            Enter valid Offer Price
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Payment Type</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" formControlName="payment_mode" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Product Notes</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" formControlName="product_notes"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Status <span class="red-star">*</span></label>
+                    <div class="col-sm-6">
+                        <div class="radio radio-inline">
+                            <input type="radio" id="cat_active" formControlName="status"
+                                value="1" checked>
+                            <label for="cat_active">Active</label>
+                        </div>
+                        <div class="radio radio-inline">
+                            <input type="radio" id="cat_inactive" formControlName="status"
+                                value="0">
+                            <label for="cat_inactive">Inactive</label>
+                        </div>
+                        <div *ngIf="f.status.invalid && (f.status.dirty || f.status.touched || !submitted)"
+                            class="err-msg">
+                            Please select the status
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Category -->
+<div class="modal fade" id="deleteProduct" data-backdrop="static">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Delete Product</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure?</h4>
+                <p>Do you really want to delete this product. Once deleted, it will be removed permanently.</p>
+                <button class="btn btn-danger" (click)="deleteProduct()">Yes, Delete it!</button>
+                <button class="btn btn-primary" data-dismiss="modal">No, Cancel it!</button>
+            </div>
+        </div>
+    </div>
+</div>
+

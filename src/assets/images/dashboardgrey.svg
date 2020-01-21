@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.1 (72631) - https://sketchapp.com -->
+    <title>dashboard</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="category" transform="translate(-44.000000, -258.000000)" fill="#8D9498" fill-rule="nonzero">
+            <g id="Header">
+                <g id="dashboard" transform="translate(44.000000, 258.000000)">
+                    <rect id="Rectangle" x="7.77776563" y="0" width="6.22223437" height="4.66666667"></rect>
+                    <rect id="Rectangle" x="0" y="0" width="6.22223438" height="7.77776563"></rect>
+                    <rect id="Rectangle" x="0" y="9.33333333" width="6.22223438" height="4.66666667"></rect>
+                    <rect id="Rectangle" x="7.77776563" y="6.22223438" width="6.22223437" height="7.77776562"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

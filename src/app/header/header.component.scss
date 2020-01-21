@@ -6,9 +6,10 @@ header {
     z-index: 1001;
     box-shadow: 0 0 5px rgba(18,23,39,.5);
     .logo-header {
-        background: #8BC541 !important;
+        background: #5cc55b !important;
+        box-shadow: 0 1px 6px 0 rgba(160, 160, 160, 0.5);
         float: left;
-        width: 250px;
+        width: 211px;
         height: 62px;
         line-height: 60px;
         color: #333;
@@ -31,7 +32,7 @@ header {
         }
     }
     .navbar-header {
-        background: #2aa745!important;
+        background: #5cc55b!important;
         min-height: 62px;
         padding: 0 15px;
         .dropdown-menu {
@@ -93,14 +94,14 @@ header {
     top: 0;
     bottom: 0;
     left: 0;
-    width: 250px;
+    width: 211px;
     margin-top: 62px;
     display: block;
     z-index: 1000;
     color: #ffffff;
     font-weight: 200;
     background: #ffffff;
-    box-shadow: 4px 4px 10px rgba(69, 65, 78, 0.06);
+    box-shadow: 0 1px 14px 0 rgba(190, 190, 190, 0.5);
     transition: all 0.3s;
     .sidebar-wrapper{
         position: relative;
@@ -109,19 +110,56 @@ header {
         overflow: auto;
         width: 100%;
         z-index: 4;
-        padding-bottom: 100px;
         transition: all 0.3s;
+        .outer-logo{
+            background-image: linear-gradient(to bottom, rgba(92,197,91, 0.8), #ffffff 73%, #ffffff 133%);
+        }
+        .nav-logo{
+            background: url(../../assets/images/sidenavlogo.svg) no-repeat center 23px;
+            width: 100%;
+            height: 125px;
+            margin-bottom: 40px;
+        }
         .nav{
             display: block;
             float: none;
             margin-top: 20px;
             li{
-                padding: 0 15px;
+                padding: 0 10px;
                 display: list-item;
                 margin-bottom: 10px;
                 a.active{
-                    background: #2aa745 !important;
-                    box-shadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.1), 4px 4px 15px -5px rgba(21, 114, 232, 0.4) !important;
+                    border-radius: 3px;
+                    box-shadow: 0 1px 14px 0 rgba(190, 190, 190, 0.5);
+                    background-color: #00a826;
+                    span{
+                        color: #fff;
+                        -webkit-transform: rotate(-180deg);
+                        transform: rotate(-180deg);
+                    }
+                    i{
+                        &.dashboard-icn{
+                            background: url(../../assets/images/dashboardwhite.svg) no-repeat;
+                        }
+                        &.order-icn{
+                            background: url(../../assets/images/orderswhite.svg) no-repeat;
+                        }
+                        &.category-icn{
+                            background: url(../../assets/images/categorywhite.svg) no-repeat;
+                        }
+                        &.product-icn{
+                           background: url(../../assets/images/productwhite.svg) no-repeat;
+                        }
+                        &.location-icn{
+                            background: url(../../assets/images/locationwhite.svg) no-repeat;
+                        }
+                        &.cust-icn{
+                           background: url(../../assets/images/customerswhite.svg) no-repeat;
+                        }
+                        &.setting-icn{
+                           background: url(../../assets/images/settingswhite.svg) no-repeat;
+                        } 
+                    }
                     &:hover{
                         background: #2aa745 !important;
                     }
@@ -130,7 +168,7 @@ header {
                     }
                 }
                 a{
-                    padding: 8px 10px;
+                    padding: 8px 10px 8px 30px;
                     border-radius: 5px;
                     display: flex;
                     align-items: center;
@@ -144,15 +182,50 @@ header {
                         background: rgba(199, 199, 199, 0.2);
                         text-decoration: none;
                     }
-                    i{
+                    span{
+                        position: absolute;
+                        right: 15px;
+                        top: 12px;
                         color: #8d9498;
+                        transition: all .5s;
+                    }
+                    i{
                         margin-right: 15px;
-                        width: 25px;
+                        width: 21px;
+                        height: 25px;
                         text-align: center;
                         vertical-align: middle;
                         float: left;
-                        font-size: 18px;
                         line-height: 30px;
+                        
+                        &.dashboard-icn{
+                            background: url(../../assets/images/dashboardgrey.svg) no-repeat;
+                            height: 15px;
+                        }
+                        &.order-icn{
+                            background: url(../../assets/images/ordersgrey.svg) no-repeat;
+                            height: 17px;
+                        }
+                        &.category-icn{
+                            background: url(../../assets/images/categorygrey.svg) no-repeat;
+                            height: 21px;
+                        }
+                        &.product-icn{
+                            background: url(../../assets/images/productgrey.svg) no-repeat;
+                            height: 15px;
+                        }
+                        &.location-icn{
+                            background: url(../../assets/images/locationgrey.svg) no-repeat;
+                            height: 17px;
+                        }
+                        &.cust-icn{
+                            background: url(../../assets/images/customersgrey.svg) no-repeat;
+                            height: 16px;
+                        }
+                        &.setting-icn{
+                            background: url(../../assets/images/settingsgrey.svg) no-repeat;
+                            height: 16px;
+                        }
                     }
                     p{
                         font-size: 14px;
