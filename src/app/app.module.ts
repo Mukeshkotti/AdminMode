@@ -5,7 +5,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
-import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,7 +36,6 @@ import { AreaComponent } from './area/area.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    RxReactiveFormsModule,
     HttpClientModule,
     FormsModule,
     ToastrModule.forRoot({

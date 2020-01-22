@@ -13,7 +13,7 @@
             <h4 class="page-title">Product Manage</h4>
             <div class="page-right">
                 <div class="dropdown-outer">
-                    <label for="statusFilter">Filter by Status</label>
+                    <label for="statusFilter">Filter by Category</label>
                     <select class="select-bx">
                         <option value="all">All</option>
                         <option value="active">Active</option>
@@ -43,7 +43,9 @@
                             <div class="cat_box">
                                 <div class="avatar-sm">
                                     <img [src]="product.image" alt="product Image"
-                                        class="avatar-img rounded">
+                                        class="avatar-img rounded" *ngIf="product.image !== null">
+                                    <img src="../../assets/images/noimage.png" alt="product Image"
+                                        class="avatar-img rounded" *ngIf="product.image === null">
                                 </div>
                                 <div class="cat_inner">
                                    <span> {{product.name_eng}}</span>
