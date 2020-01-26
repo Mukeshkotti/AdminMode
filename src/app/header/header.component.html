@@ -2,13 +2,13 @@
     <div class="logo-header">
         <a class="logo" routerlink="/"> KAS Admin </a>
         <div class="nav-toggle">
-            <button class="btn btn-toggle toggle-sidebar">
+            <button class="btn btn-toggle toggle-sidebar" (click)="slideToggle=!slideToggle">
                 <i class="fa fa-bars"></i>
             </button>
         </div>
     </div>
     <div class="navbar navbar-header navbar-expand-lg">
-        <div class="container-fluid">
+        <div class="container-fluid justify-content-end">
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
                 <!-- <li class="nav-item dropdown hidden-caret">
                     <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -146,30 +146,30 @@
         </div>
     </div>
 </header>
-<div class="sidebar">
+<div class="sidebar" [ngClass]="{'active': slideToggle === true}">
     <div class="sidebar-wrapper">
         <div class="outer-logo"><div class="nav-logo"></div></div>
         <ul class="nav nav-primary">
             <li>
-                <a routerLink="/" [ngClass]="{'active': currentState === ''}">
+                <a (click)="mobileNavSlide()" routerLink="/" [ngClass]="{'active': currentState === ''}">
                     <i class="dashboard-icn"></i>
                     <p>Dashboard</p>
                 </a>
             </li>
             <li>
-                <a routerLink="/category" routerLinkActive="active">
+                <a  (click)="mobileNavSlide()" routerLink="/category" routerLinkActive="active">
                     <i class="category-icn"></i>
                     <p>Category</p>
                 </a>
             </li>
             <li>
-                <a routerLink="/product" routerLinkActive="active">
+                <a  (click)="mobileNavSlide()" routerLink="/product" routerLinkActive="active">
                     <i class="product-icn"></i>
                     <p>Product</p>
                 </a>
             </li>
             <li>
-                <a routerLink="/area" routerLinkActive="active">
+                <a  (click)="mobileNavSlide()" routerLink="/area" routerLinkActive="active">
                     <i class="location-icn"></i>
                     <p>Location</p>
                     <span class="fa fa-caret-down"></span>

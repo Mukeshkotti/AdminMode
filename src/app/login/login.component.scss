@@ -76,3 +76,14 @@
         }
     }
 }
+
+
+@media (max-width: 500px){
+    .login-outer .login-box{
+        width: 355px;
+    }
+    .login-outer .login-logo{
+        height: 85px;
+        background-size: 300px;
+    }
+}

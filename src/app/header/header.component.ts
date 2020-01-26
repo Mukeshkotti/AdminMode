@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthenticationService } from '../_services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivationStart } from '@angular/router';
@@ -13,6 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class HeaderComponent implements OnInit {
   userDetails: Profile = new Profile();
   currentState: any;
+  slideToggle = false;
 
   constructor(private authenticationService: AuthenticationService, private toastr: ToastrService, private router: Router, private SpinnerService: NgxSpinnerService) {
     if (this.authenticationService.userDetailValue) {
@@ -26,6 +27,27 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(window.innerWidth);
+    if(window.innerWidth < 768){
+      this.slideToggle = true;
+    } else {
+      this.slideToggle = false;
+    }
+  }
+
+  mobileNavSlide(){
+    if(window.innerWidth < 768){
+      this.slideToggle = true;
+    } 
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if(window.innerWidth < 768){
+      this.slideToggle = true;
+    } else {
+      this.slideToggle = false;
+    }
   }
 
   logout() {

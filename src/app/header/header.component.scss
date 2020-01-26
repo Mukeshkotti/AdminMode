@@ -103,6 +103,9 @@ header {
     background: #ffffff;
     box-shadow: 0 1px 14px 0 rgba(190, 190, 190, 0.5);
     transition: all 0.3s;
+    &.active{
+        left: -212px;
+    }
     .sidebar-wrapper{
         position: relative;
         max-height: calc(100vh - 75px);

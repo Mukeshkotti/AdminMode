@@ -203,6 +203,7 @@ table thead tr th{
   font-weight: normal;
   color: #00a826;
   padding: 0 40px;
+  height: 46px;
   &:hover, &:focus, &:active{
     background-color: #00a826 !important;
     color: #fff !important;
@@ -331,6 +332,7 @@ font-weight: normal;
 .btn-xs {
 font-size: 10px;
 padding: 5px 9px;
+height: auto;
 }
 
 

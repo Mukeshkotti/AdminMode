@@ -20,6 +20,8 @@ import { DataService } from './_services/data.service';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ProductComponent } from './product/product.component';
 import { AreaComponent } from './area/area.component';
+import { CategoryPipe } from './_pipe/category.pipe';
+import { ProductPipe } from './_pipe/product.pipe';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { AreaComponent } from './area/area.component';
     HeaderComponent,
     CategoryComponent,
     ProductComponent,
-    AreaComponent
+    AreaComponent,
+    CategoryPipe,
+    ProductPipe
   ],
   imports: [
     BrowserModule,

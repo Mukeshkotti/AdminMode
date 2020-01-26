@@ -17,6 +17,7 @@ export class CategoryComponent implements OnInit {
   categoryList:Category[];
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  categoryStatusFilter = '';
   categoryForm: FormGroup;
   submitted = true;
   categoryManage:string;

@@ -23,6 +23,7 @@ export class ProductComponent implements OnInit {
   productId: number;
   fileName:any;
   productName:string;
+  productCategoryFilter = '';
 
 
   constructor(private formBuilder: FormBuilder, private appService: AppService,  private SpinnerService: NgxSpinnerService, private toastr: ToastrService) {
@@ -57,12 +58,15 @@ export class ProductComponent implements OnInit {
     this.appService.getCategory().subscribe(res => {
       this.SpinnerService.hide();
       this.categoryList = this.appService.prepareCategory(res['payload'].product_category);
-      this.categoryList = this.categoryList.filter(category => category.status === '1');
     }, err => {
       this.SpinnerService.hide();
       this.toastr.info(err, 'Error');
     });
     
+  }
+
+  onChangeFilter(val){
+    console.log(val);
   }
 
   toFormData<T>( formValue: T ) {

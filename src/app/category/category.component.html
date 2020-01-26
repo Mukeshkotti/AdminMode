@@ -1,65 +1,66 @@
-<div class="main-panel">
-    <nav >
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-          <i class="fa fa-angle-right m-lr-13 align-self-center"></i>
-          <li class="breadcrumb-item active">
-                Category
-            </li>
-        </ol>
-    </nav>
-    <div class="page-inner">
-        <div class="page-header">
-            <h4 class="page-title">Manage Category</h4>
-            <div class="page-right">
-                <div class="dropdown-outer">
-                    <label for="statusFilter">Filter by Status</label>
-                    <select class="select-bx">
-                        <option value="all">All</option>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                    </select>
-                </div>
-                <button class="btn btn-secondary" (click)="addCategory('add')">Add Category</button>
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <i class="fa fa-angle-right m-lr-13 align-self-center"></i>
+        <li class="breadcrumb-item active">
+            Category
+        </li>
+    </ol>
+</nav>
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Manage Category</h4>
+        <div class="page-right">
+            <div class="dropdown-outer">
+                <label for="statusFilter">Filter by Status</label>
+                <select class="select-bx" [(ngModel)]="categoryStatusFilter">
+                    <option value="">All</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
             </div>
+            <button class="btn btn-secondary" (click)="addCategory('add')">Add Category</button>
         </div>
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>S. No</th>
-                        <th>Category Name</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let category of categoryList; let i = index">
-                        <td>{{i+1}}</td>
-                        <td>
-                            <div class="cat_box">
-                                <div class="avatar-sm">
-                                    <img [src]="category.image" alt="category Image"
-                                        class="avatar-img rounded">
-                                </div>
-                                <div class="cat_inner">
-                                    {{category.name_eng}} / {{category.name_tam}}
-                                </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>S. No</th>
+                    <th>Category Name</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let category of categoryList | category: categoryStatusFilter; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>
+                        <div class="cat_box">
+                            <div class="avatar-sm">
+                                <img [src]="category.image" alt="category Image" class="avatar-img rounded"
+                                    *ngIf="category.image !== null">
+                                <img src="assets/images/noimage.png" alt="category Image" class="avatar-img rounded"
+                                    *ngIf="category.image === null">
                             </div>
-                        </td>
-                        <td>
-                            <span class="status-inactive" *ngIf="category.status === '0'">Inactive</span>
-                            <span class="status-active" *ngIf="category.status === '1'">Active</span>
-                        </td>
-                        <td>
-                            <div class="edit-icn" (click)="editCategory(category, 'edit')"></div>
-                            <div class="delete-icn" (click)="deleteConfirm(category.id)"></div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <!-- <div class="row">
+                            <div class="cat_inner">
+                                {{category.name_eng}} / {{category.name_tam}}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status-inactive" *ngIf="category.status === '0'">Inactive</span>
+                        <span class="status-active" *ngIf="category.status === '1'">Active</span>
+                    </td>
+                    <td>
+                        <div class="edit-icn" (click)="editCategory(category, 'edit')"></div>
+                        <div class="delete-icn" (click)="deleteConfirm(category.id)"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
@@ -75,97 +76,95 @@
                 </div>
             </div>
         </div> -->
-    </div>
 </div>
 
 <!-- Add Category Form -->
 <div class="modal fade" id="categoryModal" data-backdrop="static">
     <div class="modal-dialog  modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Add Category</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Category Image</label>
+                        <div class="col-sm-6">
+                            <input type="file" id="cat_upload" formControlName="image" (change)="fileChange($event)"
+                                [ngClass]="{ 'is-invalid': f.image.invalid && (f.image.dirty || f.image.touched || !submitted)}" />
+                            <label for="cat_upload">
+                                <span>{{fileName}}</span>
+                                <strong>Browse</strong>
+                            </label>
+                            <div *ngIf="f.image.invalid && (f.image.dirty || f.image.touched || !submitted)"
+                                class="err-msg">
+                                Please upload category image
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Category Name (English)</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" formControlName="name_eng"
+                                [ngClass]="{ 'is-invalid': f.name_eng.invalid && (f.name_eng.dirty || f.name_eng.touched || !submitted)}">
+                            <div *ngIf="f.name_eng.invalid && (f.name_eng.dirty || f.name_eng.touched || !submitted)"
+                                class="err-msg">
+                                Enter valid Category Name in English
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Category Name (Tamil)</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" formControlName="name_tam"
+                                [ngClass]="{ 'is-invalid': f.name_tam.invalid && (f.name_tam.dirty || f.name_tam.touched || !submitted)}">
+                            <div *ngIf="f.name_tam.invalid && (f.name_tam.dirty || f.name_tam.touched || !submitted)"
+                                class="err-msg">
+                                Enter valid Category Name in Tamil
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Status</label>
+                        <div class="col-sm-6">
+                            <div class="radio radio-inline">
+                                <input type="radio" id="cat_active" formControlName="status" value="1" checked>
+                                <label for="cat_active">Active</label>
+                            </div>
+                            <div class="radio radio-inline">
+                                <input type="radio" id="cat_inactive" formControlName="status" value="0">
+                                <label for="cat_inactive">Inactive</label>
+                            </div>
+                            <div *ngIf="f.status.invalid && (f.status.dirty || f.status.touched || !submitted)"
+                                class="err-msg">
+                                Please select the status
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-6">
+                            <button class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="modal-body">
-            <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Category Image</label>
-                    <div class="col-sm-6">
-                        <input type="file" id="cat_upload" formControlName="image" (change)="fileChange($event)"  [ngClass]="{ 'is-invalid': f.image.invalid && (f.image.dirty || f.image.touched || !submitted)}" />
-                        <label for="cat_upload">
-                            <span>{{fileName}}</span>
-                            <strong>Browse</strong>
-                        </label>
-                        <div *ngIf="f.image.invalid && (f.image.dirty || f.image.touched || !submitted)"
-                            class="err-msg">
-                            Please upload category image
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Category Name (English)</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" formControlName="name_eng"
-                            [ngClass]="{ 'is-invalid': f.name_eng.invalid && (f.name_eng.dirty || f.name_eng.touched || !submitted)}">
-                        <div *ngIf="f.name_eng.invalid && (f.name_eng.dirty || f.name_eng.touched || !submitted)"
-                            class="err-msg">
-                            Enter valid Category Name in English
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Category Name (Tamil)</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" formControlName="name_tam"
-                            [ngClass]="{ 'is-invalid': f.name_tam.invalid && (f.name_tam.dirty || f.name_tam.touched || !submitted)}">
-                        <div *ngIf="f.name_tam.invalid && (f.name_tam.dirty || f.name_tam.touched || !submitted)"
-                            class="err-msg">
-                            Enter valid Category Name in Tamil
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Status</label>
-                    <div class="col-sm-6">
-                        <div class="radio radio-inline">
-                            <input type="radio" id="cat_active" formControlName="status"
-                                value="1" checked>
-                            <label for="cat_active">Active</label>
-                        </div>
-                        <div class="radio radio-inline">
-                            <input type="radio" id="cat_inactive" formControlName="status"
-                                value="0">
-                            <label for="cat_inactive">Inactive</label>
-                        </div>
-                        <div *ngIf="f.status.invalid && (f.status.dirty || f.status.touched || !submitted)"
-                            class="err-msg">
-                            Please select the status
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label"></label>
-                    <div class="col-sm-6">
-                        <button class="btn btn-success">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
 <!-- Delete Category -->
 <div class="modal fade" id="deleteCategory" data-backdrop="static">
     <div class="modal-dialog  modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Delete Category</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <h4>Are you sure?</h4>
