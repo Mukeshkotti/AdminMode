@@ -1,6 +1,6 @@
 export class Constants {
 
-  public static SERVER_URL = 'http://kasonlineshop.com/AdminMode/lumen-jwt/';
+  public static SERVER_URL = 'https://kasonlineshop.com/AdminMode/lumen-jwt/';
   
   public static LOGIN_API       = 'api/v1/login';
   public static USER            = 'api/v1/profile';

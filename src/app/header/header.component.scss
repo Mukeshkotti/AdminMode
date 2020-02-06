@@ -5,6 +5,74 @@ header {
     position: fixed;
     z-index: 1001;
     box-shadow: 0 0 5px rgba(18,23,39,.5);
+    .topbar-toggler{
+        background: transparent;
+        color: #fff;
+        border: 0 none;
+        font-size: 22px;
+        .dropdown-user {
+            left: auto;
+            right: 3px;
+            margin-top: 0;
+            position: absolute;
+            background: #fff;
+            width: 260px;
+            border: 0px;
+            border-radius: 3px;
+            box-shadow: 0 1px 11px rgba(0, 0, 0, 0.15) !important;
+            padding-bottom: 8px;
+            padding-left: 0;
+            display:none;
+            li{
+                list-style: none;
+            }
+            &.show{
+                display:block
+            }
+            &:after{
+                border-bottom: 8px solid #fff;
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                content: "";
+                right: 10px;
+                top: -8px;
+                position: absolute;
+                z-index: 1001;
+            }
+            .user-box{
+                display: flex;
+                padding: 0.25rem 1rem;
+                .u-text{
+                    padding: 0 10px;
+                    text-align: left;
+                    display: flex;
+                    flex-direction: column;
+                    h4 {
+                        margin-bottom: 5px;
+                        margin-top: 4px;
+                        font-size: 14px;
+                        font-weight: 400;
+                        line-height: 1;
+                        text-align: left;
+                        color: #6c757d!important;
+                    }
+                    .text-muted {
+                        font-size: 12px;
+                        margin-bottom: 5px;
+                        color: #6c757d!important;
+                        line-height: 24px;
+                    }
+                    .btn{
+                        font-size: 11px;
+                    }
+                }
+            }
+        }
+        &:focus{
+            box-shadow: none;
+            outline: none;
+        }
+    }
     .logo-header {
         background: #5cc55b !important;
         box-shadow: 0 1px 6px 0 rgba(160, 160, 160, 0.5);
@@ -240,5 +308,27 @@ header {
                 }
             }
         }
+    }
+}
+
+@media(max-width: 500px) {
+    header .logo-header{
+        box-shadow: none;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .logo-header .logo {
+        position: absolute!important;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .logo-header {
+        display: flex;
+        width: 100%!important;
+        text-align: left;
+        position: relative;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 }

@@ -3,11 +3,28 @@
         <a class="logo" routerlink="/"> KAS Admin </a>
         <div class="nav-toggle">
             <button class="btn btn-toggle toggle-sidebar" (click)="slideToggle=!slideToggle">
-                <i class="fa fa-bars"></i>
+                <i class="icon-menu"></i>
             </button>
         </div>
+        <button class="topbar-toggler d-block d-md-none" (click)="dropdownToggle = !dropdownToggle">
+            <i class="icon-options-vertical"></i>
+            <ul class="dropdown-user" [ngClass]="{'show': dropdownToggle === true}">
+                <li>
+                    <div class="user-box">
+                        <div class="avatar-lg"><img [src]="userDetails.image" alt="image profile"
+                                class="avatar-img rounded"></div>
+                        <div class="u-text">
+                            <h4>{{userDetails.name}}</h4>
+                            <p class="text-muted">{{userDetails.email}}</p>
+                            <a href="javaascript:;" (click)="logout()"
+                                class="btn btn-xs btn-secondary btn-sm">Logout</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </button>
     </div>
-    <div class="navbar navbar-header navbar-expand-lg">
+    <div class="navbar navbar-header navbar-expand-lg d-none d-md-flex">
         <div class="container-fluid justify-content-end">
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
                 <!-- <li class="nav-item dropdown hidden-caret">
@@ -131,11 +148,13 @@
                         <div class="dropdown-user-scroll scrollbar-outer">
                             <li>
                                 <div class="user-box">
-                                    <div class="avatar-lg"><img [src]="userDetails.image" alt="image profile" class="avatar-img rounded"></div>
+                                    <div class="avatar-lg"><img [src]="userDetails.image" alt="image profile"
+                                            class="avatar-img rounded"></div>
                                     <div class="u-text">
                                         <h4>{{userDetails.name}}</h4>
                                         <p class="text-muted">{{userDetails.email}}</p>
-                                        <a href="javaascript:;" (click)="logout()" class="btn btn-xs btn-secondary btn-sm">Logout</a>
+                                        <a href="javaascript:;" (click)="logout()"
+                                            class="btn btn-xs btn-secondary btn-sm">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -148,7 +167,9 @@
 </header>
 <div class="sidebar" [ngClass]="{'active': slideToggle === true}">
     <div class="sidebar-wrapper">
-        <div class="outer-logo"><div class="nav-logo"></div></div>
+        <div class="outer-logo">
+            <div class="nav-logo"></div>
+        </div>
         <ul class="nav nav-primary">
             <li>
                 <a (click)="mobileNavSlide()" routerLink="/" [ngClass]="{'active': currentState === ''}">
@@ -157,19 +178,19 @@
                 </a>
             </li>
             <li>
-                <a  (click)="mobileNavSlide()" routerLink="/category" routerLinkActive="active">
+                <a (click)="mobileNavSlide()" routerLink="/category" routerLinkActive="active">
                     <i class="category-icn"></i>
                     <p>Category</p>
                 </a>
             </li>
             <li>
-                <a  (click)="mobileNavSlide()" routerLink="/product" routerLinkActive="active">
+                <a (click)="mobileNavSlide()" routerLink="/product" routerLinkActive="active">
                     <i class="product-icn"></i>
                     <p>Product</p>
                 </a>
             </li>
             <li>
-                <a  (click)="mobileNavSlide()" routerLink="/area" routerLinkActive="active">
+                <a (click)="mobileNavSlide()" routerLink="/area" routerLinkActive="active">
                     <i class="location-icn"></i>
                     <p>Location</p>
                     <span class="fa fa-caret-down"></span>

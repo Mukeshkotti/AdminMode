@@ -19,6 +19,11 @@ export class AreaComponent implements OnInit {
   areaManage: string;
   areaId: number;
   areaName: string;
+  areaStatusFilter = '';
+  modalTitle: string;
+  areaDetail:Area;
+
+
 
   constructor(private formBuilder: FormBuilder, private appService: AppService, private SpinnerService: NgxSpinnerService, private toastr: ToastrService) {
     this.areaForm = this.formBuilder.group({
@@ -43,6 +48,7 @@ export class AreaComponent implements OnInit {
   }
 
   editArea(area: Area, areaManage: string) {
+    this.modalTitle = 'Edit Area';
     this.areaManage = areaManage;
     this.areaId = area.id;
     this.areaName = area.name_eng;
@@ -55,7 +61,15 @@ export class AreaComponent implements OnInit {
     })
   }
 
+  viewArea(area:Area) {
+    this.areaDetail = area;
+    console.log(this.areaDetail);
+    $('#viewArea').modal('show');
+  }
+
   addArea(areaManage: string) {
+    this.modalTitle = 'Add Area';
+    this.submitted = true;
     this.areaManage = areaManage;
     this.areaForm.patchValue({
       name_eng: '',
@@ -69,14 +83,15 @@ export class AreaComponent implements OnInit {
   get f() { return this.areaForm.controls; }
 
   onSubmit() {
-    console.log(this.areaForm.value);
     if (this.areaForm.valid) {
       if(this.areaForm.value.name_eng === this.areaName && this.areaManage === 'edit'){
         delete this.areaForm.value.name_eng;
       }
       this.submitted = true;
+      this.areaStatusFilter = '';
       this.SpinnerService.show();
       this.appService.addEditArea(this.areaForm.value, this.areaManage, this.areaId).subscribe(res => {
+        this.areaForm.reset();
         this.SpinnerService.hide();
         this.toastr.success('Area Added Successfully', 'Success');
         $('#areaModal').modal('hide');

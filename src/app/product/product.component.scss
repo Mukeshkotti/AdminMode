@@ -68,6 +68,7 @@
 .table-desc{
     max-width:180px;
     display: flex;
+    word-break: break-all;
 }
 
 #deleteProduct .modal-body{

@@ -23,6 +23,8 @@ export class CategoryComponent implements OnInit {
   categoryManage:string;
   categoryId: number;
   fileName:any;
+  modalTitle: string;
+  categoryDetail:any;
 
   constructor(private formBuilder: FormBuilder, private appService: AppService,  private SpinnerService: NgxSpinnerService, private toastr: ToastrService, private cd: ChangeDetectorRef) {
     this.categoryForm = this.formBuilder.group({
@@ -35,6 +37,7 @@ export class CategoryComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log(this.categoryDetail)
     this.SpinnerService.show();
     this.appService.getCategory().subscribe(res => {
       this.SpinnerService.hide();
@@ -47,6 +50,7 @@ export class CategoryComponent implements OnInit {
   }
 
   editCategory(category:Category, categoryManage:string){
+    this.modalTitle = 'Edit Category'
     this.categoryManage = categoryManage;
     this.categoryId = category.id;
     $('#categoryModal').modal('show');
@@ -58,7 +62,15 @@ export class CategoryComponent implements OnInit {
     })
   }
 
+  viewCategory(category:Category) {
+    console.log(category);
+
+    this.categoryDetail = category;
+    $('#viewCategory').modal('show');
+  }
+
   addCategory(categoryManage:string){
+    this.modalTitle = 'Add Category';
     this.categoryManage = categoryManage;
     this.categoryForm.patchValue({
       name_eng: '',
@@ -66,7 +78,10 @@ export class CategoryComponent implements OnInit {
       status: '',
       image: null
     });
+    this.submitted = true;
+    this.categoryForm.reset();
     $('#categoryModal').modal('show');
+    console.log(this.submitted);
   }
 
   get f() { return this.categoryForm.controls; }
@@ -78,15 +93,18 @@ export class CategoryComponent implements OnInit {
       if(this.categoryForm.value.image === null && this.categoryManage === 'edit'){
         delete this.categoryForm.value.image;
       }
+      this.categoryStatusFilter = '';
       this.appService.addEditCategory(this.toFormData(this.categoryForm.value), this.categoryManage, this.categoryId).subscribe(res =>{
         this.SpinnerService.hide();
         this.toastr.success('Product Category Added Successfully', 'Success');
         $('#categoryModal').modal('hide');
+        this.categoryForm.reset();
         this.ngOnInit();
       }, err=>{
         this.SpinnerService.hide();
         this.toastr.info(err, 'Error');
       });
+
     }  else {
       this.submitted = false;
     }
@@ -122,6 +140,7 @@ export class CategoryComponent implements OnInit {
   }
 
   fileChange(event){
+    this.imageChangedEvent = event;
     this.categoryForm.patchValue({
       image: event.target.files[0]
     });

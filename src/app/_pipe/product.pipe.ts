@@ -3,11 +3,12 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'productFilter'
 })
 export class ProductPipe implements PipeTransform {
-    transform(items: any[], searchText: string): any[] {
+    transform(items: any[], searchText: number): any[] {
         if (!items) return [];
-        if (!searchText) return items;
-        return items.filter(it => {
-            return it.category_id.includes(searchText);
-        });
+        if (!Number(searchText)) return items;
+        console.log('---------------------')
+        items.map(it=> console.log(it.category_id, it.id))
+        console.log('---------------------------')
+        return items.filter(it => it.category_id ===  Number(searchText));
     }
 }

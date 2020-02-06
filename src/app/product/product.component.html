@@ -9,12 +9,12 @@
 </nav>
 <div class="page-inner">
     <div class="page-header">
-        <h4 class="page-title">Product Manage</h4>
+        <h4 class="page-title">Manage Products</h4>
         <div class="page-right">
             <div class="dropdown-outer">
                 <label for="statusFilter">Filter by Category</label>
                 <select class="select-bx" [(ngModel)]="productCategoryFilter" (change)="onChangeFilter(productCategoryFilter)">
-                    <option value="">All</option>
+                    <option value="0">All</option>
                     <option *ngFor="let category of categoryList" [value]="category.id">{{category.name_eng}}</option>
                 </select>
             </div>
@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped" *ngIf="productList">
             <thead>
                 <tr>
                     <th>S. No</th>
@@ -35,7 +35,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let product of productList | productFilter: productCategoryFilter; let i = index">
+                <tr *ngFor="let product of productList | productFilter: productCategoryFilter| paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
                     <td>{{i+1}}</td>
                     <td>
                         <div class="cat_box">
@@ -54,7 +54,7 @@
                     <td><span class="table-desc" *ngIf="product.description !== null">{{product.description}}</span>
                     </td>
                     <td>{{product.stock}}</td>
-                    <td>{{product.offer_price}}</td>
+                    <td>Rs. {{product.offer_price}}</td>
                     <td>
                         <span class="status-inactive" *ngIf="product.status === '0'">Inactive</span>
                         <span class="status-active" *ngIf="product.status === '1'">Active</span>
@@ -64,8 +64,12 @@
                         <div class="delete-icn" (click)="deleteConfirm(product.id)"></div>
                     </td>
                 </tr>
+                <tr *ngIf="(productList | productFilter: productCategoryFilter).length === 0">
+                    <td colspan="7" align="center">No Records Found.Please Add Product</td>
+                </tr>
             </tbody>
         </table>
+        <pagination-controls  *ngIf="(productList | productFilter: productCategoryFilter).length > 10" (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>
 

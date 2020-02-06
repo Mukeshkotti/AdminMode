@@ -9,8 +9,16 @@
 </nav>
 <div class="page-inner">
     <div class="page-header">
-        <h4 class="page-title">Area Manage</h4>
+        <h4 class="page-title">Manage Area</h4>
         <div class="page-right">
+            <div class="dropdown-outer">
+                <label for="statusFilter">Filter by Status</label>
+                <select class="select-bx" [(ngModel)]="areaStatusFilter">
+                    <option value="">All</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
             <button class="btn btn-secondary" (click)="addArea('add')">Add Area</button>
         </div>
     </div>
@@ -26,11 +34,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let area of areaList; let i = index">
+                <tr *ngFor="let area of areaList | category: areaStatusFilter | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
                     <td>{{i+1}}</td>
-                    <td>{{area.name_eng}} / {{area.name_tam}}</td>
+                    <td (click)="viewArea(area)">{{area.name_eng}} / {{area.name_tam}}</td>
                     <td>
-                        <span *ngIf="area.delivery_charge != 0">{{area.delivery_charge}}</span>
+                        <span *ngIf="area.delivery_charge != 0">Rs. {{area.delivery_charge}}</span>
                         <span *ngIf="area.delivery_charge == 0">Free</span>
                     </td>
                     <td>
@@ -42,8 +50,13 @@
                         <div class="delete-icn" (click)="deleteArea(area.id)"></div>
                     </td>
                 </tr>
+                <tr *ngIf="(areaList | category: areaStatusFilter).length === 0">
+                    <td  colspan="5" align="center">No Records Found. Please Add Area</td>
+                </tr>
             </tbody>
         </table>
+        <pagination-controls  *ngIf="(areaList | category: areaStatusFilter).length > 10" (pageChange)="p = $event"></pagination-controls>
+
     </div>
 </div>
 
@@ -53,7 +66,7 @@
     <div class="modal-dialog  modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add/Edit Area</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">{{modalTitle}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -61,7 +74,7 @@
             <div class="modal-body">
                 <form [formGroup]="areaForm" (ngSubmit)="onSubmit()">
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Area Name (English)</label>
+                        <label class="col-sm-4 col-form-label">Area Name (English) <span class="red-star">*</span></label>
                         <div class="col-sm-6">
                             <input type="text" class="form-control" formControlName="name_eng"
                                 [ngClass]="{ 'is-invalid': f.name_eng.invalid && (f.name_eng.dirty || f.name_eng.touched || !submitted)}">
@@ -72,7 +85,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Area Name (Tamil)</label>
+                        <label class="col-sm-4 col-form-label">Area Name (Tamil) <span class="red-star">*</span></label>
                         <div class="col-sm-6">
                             <input type="text" class="form-control" formControlName="name_tam"
                                 [ngClass]="{ 'is-invalid': f.name_tam.invalid && (f.name_tam.dirty || f.name_tam.touched || !submitted)}">
@@ -83,7 +96,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Delivery Charge</label>
+                        <label class="col-sm-4 col-form-label">Delivery Charge <span class="red-star">*</span></label>
                         <div class="col-sm-6">
                             <input type="number" class="form-control" formControlName="delivery_price"
                                 [ngClass]="{ 'is-invalid': f.delivery_price.invalid && (f.delivery_price.dirty || f.delivery_price.touched || !submitted)}">
@@ -94,7 +107,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Status</label>
+                        <label class="col-sm-4 col-form-label">Status <span class="red-star">*</span></label>
                         <div class="col-sm-6">
                             <div class="radio radio-inline">
                                 <input type="radio" id="cat_active" formControlName="status" value="1" checked>
@@ -117,6 +130,47 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Area  -->
+<div class="modal fade" id="viewArea" data-backdrop="static">
+    <div class="modal-dialog  modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Area Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="areaDetail">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Area Name (English)</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" [value]="areaDetail.name_eng">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Area Name (Tamil)</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" [value]="areaDetail.name_tam" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Delivery Charge</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" [value]="areaDetail.delivery_charge">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Status</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" value="Active" *ngIf="areaDetail.status === '1'" >
+                            <input type="text" class="form-control-plaintext" value="Inactive" *ngIf="areaDetail.status === '0'">
+                        </div>
+                    </div>
             </div>
         </div>
     </div>

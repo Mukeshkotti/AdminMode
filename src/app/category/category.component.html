@@ -22,7 +22,7 @@
             <button class="btn btn-secondary" (click)="addCategory('add')">Add Category</button>
         </div>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive" *ngIf="categoryList">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -33,7 +33,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let category of categoryList | category: categoryStatusFilter; let i = index">
+                <tr *ngFor="let category of categoryList | category: categoryStatusFilter | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
                     <td>{{i+1}}</td>
                     <td>
                         <div class="cat_box">
@@ -43,8 +43,8 @@
                                 <img src="assets/images/noimage.png" alt="category Image" class="avatar-img rounded"
                                     *ngIf="category.image === null">
                             </div>
-                            <div class="cat_inner">
-                                {{category.name_eng}} / {{category.name_tam}}
+                            <div class="cat_inner" (click)="viewCategory(category)">
+                                {{category.name_eng}} / {{category.name_tam}} {{category.id}}
                             </div>
                         </div>
                     </td>
@@ -57,8 +57,14 @@
                         <div class="delete-icn" (click)="deleteConfirm(category.id)"></div>
                     </td>
                 </tr>
+                <tr *ngIf="(categoryList | category: categoryStatusFilter).length === 0">
+                    <td colspan="4" align="center">No Records Found. Please Add Category</td>
+                </tr>
             </tbody>
         </table>
+      
+        <pagination-controls  *ngIf="(categoryList | category: categoryStatusFilter).length > 10" (pageChange)="p = $event"></pagination-controls>
+        
     </div>
     <!-- <div class="row">
             <div class="col-12">
@@ -78,12 +84,12 @@
         </div> -->
 </div>
 
-<!-- Add Category Form -->
+<!-- Add/Edit Category Form -->
 <div class="modal fade" id="categoryModal" data-backdrop="static">
     <div class="modal-dialog  modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add Category</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">{{modalTitle}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -91,7 +97,7 @@
             <div class="modal-body">
                 <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Category Image</label>
+                        <label class="col-sm-4 col-form-label">Category Image</label>
                         <div class="col-sm-6">
                             <input type="file" id="cat_upload" formControlName="image" (change)="fileChange($event)"
                                 [ngClass]="{ 'is-invalid': f.image.invalid && (f.image.dirty || f.image.touched || !submitted)}" />
@@ -106,7 +112,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Category Name (English)</label>
+                        <label class="col-sm-4 col-form-label">Category Name (English) <span class="red-star">*</span></label>
                         <div class="col-sm-6">
                             <input type="text" class="form-control" formControlName="name_eng"
                                 [ngClass]="{ 'is-invalid': f.name_eng.invalid && (f.name_eng.dirty || f.name_eng.touched || !submitted)}">
@@ -117,7 +123,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Category Name (Tamil)</label>
+                        <label class="col-sm-4 col-form-label">Category Name (Tamil) <span class="red-star">*</span></label>
                         <div class="col-sm-6">
                             <input type="text" class="form-control" formControlName="name_tam"
                                 [ngClass]="{ 'is-invalid': f.name_tam.invalid && (f.name_tam.dirty || f.name_tam.touched || !submitted)}">
@@ -128,7 +134,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Status</label>
+                        <label class="col-sm-4 col-form-label">Status <span class="red-star">*</span></label>
                         <div class="col-sm-6">
                             <div class="radio radio-inline">
                                 <input type="radio" id="cat_active" formControlName="status" value="1" checked>
@@ -145,7 +151,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label"></label>
                         <div class="col-sm-6">
                             <button class="btn btn-success">Submit</button>
                         </div>
@@ -155,6 +161,54 @@
         </div>
     </div>
 </div>
+
+<!-- View Category  -->
+<div class="modal fade" id="viewCategory" data-backdrop="static">
+    <div class="modal-dialog  modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Category Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="categoryDetail">
+                <form >
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Category Image</label>
+                        <div class="col-sm-6">
+                            <div class="viewCatImg">
+                                <img [src]="categoryDetail.image" *ngIf="categoryDetail.image !== null" />
+                                <img src="/assets/images/noimage.png" *ngIf="categoryDetail.image === null" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Category Name (English)</label>
+                        <div class="col-sm-6">
+                            
+                            <input type="text" class="form-control-plaintext" [value]="categoryDetail.name_eng">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Category Name (Tamil) </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" [value]="categoryDetail.name_tam">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Category Status </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" value="Active" *ngIf="categoryDetail.status === '1'">
+                            <input type="text" class="form-control-plaintext" value="Inactive" *ngIf="categoryDetail.status === '0'">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Delete Category -->
 <div class="modal fade" id="deleteCategory" data-backdrop="static">

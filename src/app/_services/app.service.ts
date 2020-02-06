@@ -112,7 +112,7 @@ export class AppService {
         for(const item of response){
             const productListModel:Product = new Product();
             productListModel.id = item.id;
-            productListModel.category_id = item.category_id;
+            productListModel.category_id = Number(item.category_id);
             productListModel.description = item.description;
             productListModel.image = item.image;
             productListModel.mrp_price = item.mrp_price;
@@ -126,6 +126,7 @@ export class AppService {
             productListModel.is_fav = item.is_fav;
             productList.push(productListModel);
         }
+
         return productList;
     }
 

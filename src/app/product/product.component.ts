@@ -23,7 +23,7 @@ export class ProductComponent implements OnInit {
   productId: number;
   fileName:any;
   productName:string;
-  productCategoryFilter = '';
+  productCategoryFilter = 0;
 
 
   constructor(private formBuilder: FormBuilder, private appService: AppService,  private SpinnerService: NgxSpinnerService, private toastr: ToastrService) {
@@ -51,6 +51,8 @@ export class ProductComponent implements OnInit {
     this.appService.getProduct().subscribe(res => {
       this.SpinnerService.hide();
       this.productList = this.appService.prepareProduct(res['payload'].product);
+      const test = this.productList.filter(prod=> prod.category_id === 1)
+      console.log(test);
     }, err => {
       this.SpinnerService.hide();
       this.toastr.info(err, 'Error');
@@ -65,8 +67,10 @@ export class ProductComponent implements OnInit {
     
   }
 
-  onChangeFilter(val){
+  onChangeFilter(val:number){
     console.log(val);
+    const test = this.productList.filter(prod=> prod.category_id === Number(val))
+    console.log(test);
   }
 
   toFormData<T>( formValue: T ) {
@@ -104,6 +108,7 @@ export class ProductComponent implements OnInit {
   }
 
   addProduct(productManage:string){
+    this.submitted = true;
     this.productManage = productManage;
     this.productForm.patchValue({
       name_eng: '',
@@ -143,8 +148,8 @@ export class ProductComponent implements OnInit {
       if(this.productForm.value.description === null){
         delete this.productForm.value.description;
       }
-      console.log(this.productForm.value);
       this.appService.addEditProduct(this.toFormData(this.productForm.value), this.productManage, this.productId).subscribe(res =>{
+        this.productForm.reset();
         this.SpinnerService.hide();
         this.toastr.success('Product Added Successfully', 'Success');
         $('#productModal').modal('hide');

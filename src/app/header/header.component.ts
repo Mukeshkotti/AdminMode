@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
   userDetails: Profile = new Profile();
   currentState: any;
   slideToggle = false;
+  dropdownToggle = false;
 
   constructor(private authenticationService: AuthenticationService, private toastr: ToastrService, private router: Router, private SpinnerService: NgxSpinnerService) {
     if (this.authenticationService.userDetailValue) {

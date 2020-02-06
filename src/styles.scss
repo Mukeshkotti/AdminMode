@@ -375,3 +375,14 @@ background-position: 15px 20px;
   }
 }
 
+
+
+.ngx-pagination{
+  display: flex;
+  justify-content: flex-end;
+  .current{
+    background: #2aa745!important;
+    border-radius: 5px;
+  }
+}
+
