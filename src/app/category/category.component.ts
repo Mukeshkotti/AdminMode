@@ -25,6 +25,7 @@ export class CategoryComponent implements OnInit {
   fileName:any;
   modalTitle: string;
   categoryDetail:any;
+  p: number = 1;
 
   constructor(private formBuilder: FormBuilder, private appService: AppService,  private SpinnerService: NgxSpinnerService, private toastr: ToastrService, private cd: ChangeDetectorRef) {
     this.categoryForm = this.formBuilder.group({

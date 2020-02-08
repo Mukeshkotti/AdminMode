@@ -45,7 +45,7 @@
                                 <img src="assets/images/noimage.png" alt="product Image" class="avatar-img rounded"
                                     *ngIf="product.image === null">
                             </div>
-                            <div class="cat_inner">
+                            <div class="cat_inner" (click)="viewProduct(product)">
                                 <span> {{product.name_eng}}</span>
                                 <span> {{product.name_tam}}</span>
                             </div>
@@ -183,8 +183,8 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Product Price <span class="red-star">*</span></label>
                         <div class="col-sm-3">
+                            <label class="inner-label">MRP Price</label>
                             <input type="number" class="form-control" formControlName="mrp_price"
-                                placeholder="MRP Price"
                                 [ngClass]="{ 'is-invalid': f.mrp_price.invalid && (f.mrp_price.dirty || f.mrp_price.touched || !submitted)}">
                             <div *ngIf="f.mrp_price.invalid && (f.mrp_price.dirty || f.mrp_price.touched || !submitted)"
                                 class="err-msg">
@@ -192,8 +192,8 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
+                            <label class="inner-label">Offer Price</label>
                             <input type="number" class="form-control" formControlName="offer_price"
-                                placeholder="Offer Price"
                                 [ngClass]="{ 'is-invalid': f.offer_price.invalid && (f.offer_price.dirty || f.offer_price.touched || !submitted)}">
                             <div *ngIf="f.offer_price.invalid && (f.offer_price.dirty || f.offer_price.touched || !submitted)"
                                 class="err-msg">
@@ -237,6 +237,118 @@
                             <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- view product Form -->
+<div class="modal fade" id="viewProduct" data-backdrop="static">
+    <div class="modal-dialog  modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"> Product Detail</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="productDetail">
+                <form>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Category Name </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" [value]="categoryName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Product Image</label>
+                        <div class="col-sm-6">
+                            <div class="viewCatImg">
+                                <img [src]="productDetail.image" *ngIf="productDetail.image !== null" />
+                                <img src="/assets/images/noimage.png" *ngIf="productDetail.image === null" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Product Name (English)</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" [value]="productDetail.name_eng">
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Product Name (Tamil)</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" [value]="productDetail.name_tam">
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Favourite </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" value="Yes" *ngIf="productDetail.is_fav === '1'">
+                            <input type="text" class="form-control-plaintext" value="No" *ngIf="productDetail.is_fav === '0'">
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Product Unit/Value </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" [value]="productDetail.unit">
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Product Description</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" [value]="productDetail.description">
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Stock Quantity </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" [value]="productDetail.stock">
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Product Price </label>
+                        <div class="col-sm-3">
+                            <label class="inner-label">MRP Price</label>
+                            <input type="text" class="form-control-plaintext" [value]="productDetail.mrp_price">
+
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="inner-label">Offer Price</label>
+                            <input type="text" class="form-control-plaintext" [value]="productDetail.offer_price">
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Payment Type</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" value="Cash on Delivery">
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Product Notes</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" [value]="productDetail.notes">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Status </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control-plaintext" value="Active" *ngIf="productDetail.status === '1'">
+                            <input type="text" class="form-control-plaintext" value="Inactive" *ngIf="productDetail.status === '0'">
+                        
+                        </div>
+                    </div>
+                   
                 </form>
             </div>
         </div>

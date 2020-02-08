@@ -16,6 +16,7 @@ declare var $: any;
 export class ProductComponent implements OnInit {
 
   productList:Product[];
+  productDetail:any;
   categoryList: Category[];
   productForm: FormGroup;
   submitted = true;
@@ -24,6 +25,9 @@ export class ProductComponent implements OnInit {
   fileName:any;
   productName:string;
   productCategoryFilter = 0;
+  p: number = 1;
+  categoryName: string;
+
 
 
   constructor(private formBuilder: FormBuilder, private appService: AppService,  private SpinnerService: NgxSpinnerService, private toastr: ToastrService) {
@@ -40,19 +44,23 @@ export class ProductComponent implements OnInit {
       mrp_price: ['', Validators.required],
       offer_price: ['', Validators.required],
       payment_mode: ['Cash on Delivery'],
-      product_notes: ['']
+      notes: ['']
       
     });
    }
 
+   viewProduct(product:Product) {
+    this.productDetail = product;
+    console.log(product)
+    this.categoryName = (this.categoryList.filter(cat => cat.id === product.category_id))[0].name_eng;
+    $('#viewProduct').modal('show');
+  }
 
   ngOnInit() {
     this.SpinnerService.show();
     this.appService.getProduct().subscribe(res => {
       this.SpinnerService.hide();
       this.productList = this.appService.prepareProduct(res['payload'].product);
-      const test = this.productList.filter(prod=> prod.category_id === 1)
-      console.log(test);
     }, err => {
       this.SpinnerService.hide();
       this.toastr.info(err, 'Error');
@@ -68,9 +76,7 @@ export class ProductComponent implements OnInit {
   }
 
   onChangeFilter(val:number){
-    console.log(val);
-    const test = this.productList.filter(prod=> prod.category_id === Number(val))
-    console.log(test);
+
   }
 
   toFormData<T>( formValue: T ) {
@@ -102,7 +108,7 @@ export class ProductComponent implements OnInit {
       mrp_price: product.mrp_price,
       offer_price: product.offer_price,
       payment_mode: 'Cash on Delivery',
-      product_notes: product.notes
+      notes: product.notes
     })
     this.findInvalidControls();
   }
@@ -123,7 +129,7 @@ export class ProductComponent implements OnInit {
       mrp_price: '',
       offer_price: '',
       payment_mode: 'Cash on Delivery',
-      product_notes: '',
+      notes: '',
     });
     $('#productModal').modal('show');
   }
@@ -148,6 +154,7 @@ export class ProductComponent implements OnInit {
       if(this.productForm.value.description === null){
         delete this.productForm.value.description;
       }
+      this.productCategoryFilter = 0;
       this.appService.addEditProduct(this.toFormData(this.productForm.value), this.productManage, this.productId).subscribe(res =>{
         this.productForm.reset();
         this.SpinnerService.hide();

@@ -22,6 +22,8 @@ export class AreaComponent implements OnInit {
   areaStatusFilter = '';
   modalTitle: string;
   areaDetail:Area;
+  p: number = 1;
+
 
 
 

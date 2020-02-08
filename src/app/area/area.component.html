@@ -36,7 +36,7 @@
             <tbody>
                 <tr *ngFor="let area of areaList | category: areaStatusFilter | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
                     <td>{{i+1}}</td>
-                    <td (click)="viewArea(area)">{{area.name_eng}} / {{area.name_tam}}</td>
+                    <td (click)="viewArea(area)" style="cursor: pointer;">{{area.name_eng}} / {{area.name_tam}}</td>
                     <td>
                         <span *ngIf="area.delivery_charge != 0">Rs. {{area.delivery_charge}}</span>
                         <span *ngIf="area.delivery_charge == 0">Free</span>
